@@ -1,0 +1,50 @@
+type Query {
+  reader(id: ID!): Reader
+  books(title: String): [Book!]!
+  readers: [Reader!]!
+}
+
+type Mutation {
+  createReader(data: CreateReaderInput): Reader!
+  deleteReader(id: ID!): Reader!
+  updateBook(id: ID!, readerId:ID!, action: BookUpateAction!): Book!
+}
+
+type Subscription {
+  bookUpdate: Book!
+  count: Int!
+}
+
+enum BookUpateAction {
+  LEND
+  RETURN
+}
+
+input CreateReaderInput {
+  name: String!
+  email: String!
+  phone: String
+}
+
+interface User {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String
+}
+
+type Reader implements User {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String
+  books: [Book!]
+}
+
+type Book {
+  id: ID!
+  title: String!
+  author: String!
+  genre: String!
+  reader: Reader
+}
